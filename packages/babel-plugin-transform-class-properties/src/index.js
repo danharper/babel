@@ -78,6 +78,7 @@ export default function ({ types: t }) {
         }
 
         if (staticArrows.length) {
+          // wrap in function bound to the class itself, then execute, so arrow properties are bound to the class
           nodes.push(t.callExpression(
             t.callExpression(
               t.memberExpression(
