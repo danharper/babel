@@ -30,4 +30,4 @@ assert.equal(C.foo(), 4);
 
 assert.equal(X.foo(), 3);
 assert.equal(Y.foo(), 3);
-assert.equal(Z.foo(), 2);
+assert.equal(Z.foo(), 3);
