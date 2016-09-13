@@ -2,4 +2,6 @@ var Foo = function Foo() {
   babelHelpers.classCallCheck(this, Foo);
 };
 
-Foo.bar = "foo";
+(function () {
+  Foo.bar = "foo";
+}).call(Foo)

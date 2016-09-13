@@ -22,11 +22,13 @@ var y = {
       }]);
 
       return X;
-    }(), _class.x = 4, function () {
+    }(), (function () {
+      _class.x = 4;
+
       _class.getXArrow = () => {
         return this.x;
       };
-    }.call(_class), _temp;
+    }).call(_class), _temp;
   }
 }.run();
 
