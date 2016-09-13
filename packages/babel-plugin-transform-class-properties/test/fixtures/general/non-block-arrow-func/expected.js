@@ -13,8 +13,10 @@ export default (param => {
       }
     }]);
     return App;
-  }(), _class.props = {
-    prop1: 'prop1',
-    prop2: 'prop2'
-  }, _temp;
+  }(), (function () {
+    _class.props = {
+      prop1: 'prop1',
+      prop2: 'prop2'
+    };
+  }).call(_class), _temp;
 });

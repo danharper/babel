@@ -50,6 +50,7 @@ export default function ({ types: t }) {
           ref = path.node.id;
         }
 
+        let statics = [];
         let instanceBody = [];
 
         for (let prop of props) {
@@ -60,7 +61,7 @@ export default function ({ types: t }) {
           let isStatic = propNode.static;
 
           if (isStatic) {
-            nodes.push(t.expressionStatement(
+            statics.push(t.expressionStatement(
               t.assignmentExpression("=", t.memberExpression(ref, propNode.key), propNode.value)
             ));
           } else {
@@ -68,6 +69,18 @@ export default function ({ types: t }) {
               t.assignmentExpression("=", t.memberExpression(t.thisExpression(), propNode.key), propNode.value)
             ));
           }
+        }
+
+        if (statics.length) {
+          nodes.push(
+            t.callExpression(
+              t.memberExpression(
+                t.parenthesizedExpression(t.functionExpression(null, [], t.blockStatement(statics))),
+                t.identifier('call')
+              ),
+              [ref]
+            )
+          )
         }
 
         if (instanceBody.length) {

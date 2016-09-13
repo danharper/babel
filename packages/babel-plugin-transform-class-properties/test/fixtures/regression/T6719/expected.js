@@ -10,11 +10,13 @@ function withContext(ComposedComponent) {
         }
 
         return WithContext;
-    }(Component), _class.propTypes = {
-        context: PropTypes.shape({
-            addCss: PropTypes.func,
-            setTitle: PropTypes.func,
-            setMeta: PropTypes.func
-        })
-    }, _temp;
+    }(Component), (function () {
+        _class.propTypes = {
+            context: PropTypes.shape({
+                addCss: PropTypes.func,
+                setTitle: PropTypes.func,
+                setMeta: PropTypes.func
+            })
+        };
+    }).call(_class), _temp;
 }
