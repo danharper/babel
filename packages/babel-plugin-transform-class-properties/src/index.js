@@ -60,9 +60,29 @@ export default function ({ types: t }) {
           let isStatic = propNode.static;
 
           if (isStatic) {
-            nodes.push(t.expressionStatement(
+            let body = t.expressionStatement(
               t.assignmentExpression("=", t.memberExpression(ref, propNode.key), propNode.value)
-            ));
+            );
+
+            if (propNode.value.type === 'ArrowFunctionExpression') {
+              body = t.callExpression(
+                t.callExpression(
+                  t.memberExpression(
+                    t.functionExpression(
+                      null, [], t.blockStatement([
+                        body
+                      ])
+                    ),
+                    t.identifier('bind')
+                  ),
+                  [ref]
+                ), []
+              );
+            }
+
+            nodes.push(
+              body
+            );
           } else {
             instanceBody.push(t.expressionStatement(
               t.assignmentExpression("=", t.memberExpression(t.thisExpression(), propNode.key), propNode.value)
