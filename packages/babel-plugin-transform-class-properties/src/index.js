@@ -73,19 +73,15 @@ export default function ({ types: t }) {
 
         if (staticProps.length) {
           // wrap in function bound to the class itself, then execute, so arrow properties are bound to the class
-          nodes.push(t.callExpression(
+          nodes.push(
             t.callExpression(
               t.memberExpression(
-                t.functionExpression(
-                  null, [], t.blockStatement(
-                    staticProps
-                  )
-                ),
-                t.identifier('bind')
+                t.parenthesizedExpression(t.functionExpression(null, [], t.blockStatement(staticProps))),
+                t.identifier('call')
               ),
               [ref]
-            ), []
-          ));
+            )
+          );
         }
 
         if (instanceBody.length) {

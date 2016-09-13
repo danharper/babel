@@ -26,7 +26,7 @@ var y = {
       _class.getXArrow = () => {
         return this.x;
       };
-    }.bind(_class)(), _temp;
+    }.call(_class), _temp;
   }
 }.run();
 
