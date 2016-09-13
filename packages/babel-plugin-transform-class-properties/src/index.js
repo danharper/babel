@@ -51,7 +51,7 @@ export default function ({ types: t }) {
         }
 
         let instanceBody = [];
-        let staticArrows = [];
+        let staticProps = [];
 
         for (let prop of props) {
           let propNode = prop.node;
@@ -61,15 +61,9 @@ export default function ({ types: t }) {
           let isStatic = propNode.static;
 
           if (isStatic) {
-            let body = t.expressionStatement(
+            staticProps.push(t.expressionStatement(
               t.assignmentExpression("=", t.memberExpression(ref, propNode.key), propNode.value)
-            );
-
-            if (propNode.value.type === 'ArrowFunctionExpression') {
-              staticArrows.push(body);
-            } else {
-              nodes.push(body);
-            }
+            ));
           } else {
             instanceBody.push(t.expressionStatement(
               t.assignmentExpression("=", t.memberExpression(t.thisExpression(), propNode.key), propNode.value)
@@ -77,14 +71,14 @@ export default function ({ types: t }) {
           }
         }
 
-        if (staticArrows.length) {
+        if (staticProps.length) {
           // wrap in function bound to the class itself, then execute, so arrow properties are bound to the class
           nodes.push(t.callExpression(
             t.callExpression(
               t.memberExpression(
                 t.functionExpression(
                   null, [], t.blockStatement(
-                    staticArrows
+                    staticProps
                   )
                 ),
                 t.identifier('bind')
