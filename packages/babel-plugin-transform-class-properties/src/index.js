@@ -51,6 +51,7 @@ export default function ({ types: t }) {
         }
 
         let instanceBody = [];
+        let staticArrows = [];
 
         for (let prop of props) {
           let propNode = prop.node;
@@ -65,29 +66,31 @@ export default function ({ types: t }) {
             );
 
             if (propNode.value.type === 'ArrowFunctionExpression') {
-              body = t.callExpression(
-                t.callExpression(
-                  t.memberExpression(
-                    t.functionExpression(
-                      null, [], t.blockStatement([
-                        body
-                      ])
-                    ),
-                    t.identifier('bind')
-                  ),
-                  [ref]
-                ), []
-              );
+              staticArrows.push(body);
+            } else {
+              nodes.push(body);
             }
-
-            nodes.push(
-              body
-            );
           } else {
             instanceBody.push(t.expressionStatement(
               t.assignmentExpression("=", t.memberExpression(t.thisExpression(), propNode.key), propNode.value)
             ));
           }
+        }
+
+        if (staticArrows.length) {
+          nodes.push(t.callExpression(
+            t.callExpression(
+              t.memberExpression(
+                t.functionExpression(
+                  null, [], t.blockStatement(
+                    staticArrows
+                  )
+                ),
+                t.identifier('bind')
+              ),
+              [ref]
+            ), []
+          ));
         }
 
         if (instanceBody.length) {
