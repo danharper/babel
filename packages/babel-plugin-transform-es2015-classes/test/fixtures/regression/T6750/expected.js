@@ -3,7 +3,8 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-function _default() {
+
+exports.default = function () {
   return function () {
     function Select() {
       babelHelpers.classCallCheck(this, Select);
@@ -15,5 +16,4 @@ function _default() {
     }]);
     return Select;
   }();
-}
-exports.default = _default;
+};
