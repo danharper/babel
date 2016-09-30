@@ -11,6 +11,7 @@ class X {
   } /*:: a: number*/
 
   /*:: b: ?string*/ /*:: c: ?number*/
+
   /*:: v: (a/* x = y *-/: string) => /* blah = blah *-/ void*/
   /*:: w: (a/* x = y *-/: string) => /* blah = blah *-/ number*/ /*:: z: (a: string) => (b: number) => { x: string, y: number }*/ /*:: x: (a: string) => string*/ /*:: y: (a: string) => string*/
 }

@@ -2,6 +2,7 @@ class X {
   a: number = 2
   b: ?string = '3'
   c: ?number
+  d
   v: (a/* x = y */: string) => /* blah = blah */ void
   w: (a/* x = y */: string) => /* blah = blah */ number = (a/* x = y */: string) => /* blah = blah */ 2
   x: (a: string) => string
