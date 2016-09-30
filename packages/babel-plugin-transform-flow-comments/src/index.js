@@ -42,7 +42,9 @@ export default function ({ types: t }) {
         path.get("body.body").forEach((child) => {
           if (child.isClassProperty() && child.node.typeAnnotation) {
             if (child.node.value) {
-              child.get("key").addComment("trailing", generateComment(child.get("typeAnnotation")));
+              // child.get("key").addComment("trailing", generateComment(child.get("typeAnnotation")));
+              child.addComment("trailing", generateComment(child));
+              // child.replaceWith(t.noop());
             } else {
               wrapInFlowComment(child, child.parent);
             }
