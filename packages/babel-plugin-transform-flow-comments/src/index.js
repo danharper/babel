@@ -9,8 +9,16 @@ export default function ({ types: t }) {
     return comment.replace(/\*-\//g, "*-ESCAPED/").replace(/\*\//g, "*-/");
   }
 
+  function getSource(path) {
+    if (path.isClassProperty()) {
+      return path.get("key").getSource() + path.get("typeAnnotation").getSource();
+    } else {
+      return path.getSource();
+    }
+  }
+
   function generateComment(path, parent) {
-    let comment = escapeSource(path.getSource());
+    let comment = escapeSource(getSource(path));
     if (parent && parent.optional) comment = "?" + comment;
     if (comment[0] !== ":") comment = ":: " + comment;
     return comment;
@@ -47,8 +55,7 @@ export default function ({ types: t }) {
         path.get("body.body").forEach((child) => {
           if (child.isClassProperty() && child.node.typeAnnotation) {
             if (child.node.value) {
-              const comment = escapeSource(':: ' + child.get("key").getSource() + child.get("typeAnnotation").getSource());
-              child.addComment("trailing", comment);
+              child.addComment("trailing", generateComment(child));
             } else {
               wrapInFlowComment(child, child.parent);
             }
