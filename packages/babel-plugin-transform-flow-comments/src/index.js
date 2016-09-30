@@ -38,9 +38,17 @@ export default function ({ types: t }) {
       },
 
       // support for `class X { foo: string }` - #4622
-      ClassProperty(path) {
-        let { node, parent } = path;
-        if (!node.value) wrapInFlowComment(path, parent);
+      Class(path) {
+        path.get("body.body").forEach((child) => {
+          if (child.isClassProperty() && child.node.typeAnnotation) {
+            if (child.node.value) {
+              child.get("key").addComment("trailing", generateComment(child.get("typeAnnotation")));
+            } else {
+              wrapInFlowComment(child, child.parent);
+            }
+            child.node.typeAnnotation = null;
+          }
+        });
       },
 
       // support `export type a = {}` - #8 Error: You passed path.replaceWith() a falsy node

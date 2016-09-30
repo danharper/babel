@@ -1,7 +1,8 @@
 class X {
   constructor() {
-    this.a = 2;
-    this.b = '3';
+    this.a /*: number*/ = 2;
+    this.b /*: ?string*/ = '3';
   }
 
+  /*:: c: ?number*/
 }
