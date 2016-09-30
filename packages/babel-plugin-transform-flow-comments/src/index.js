@@ -4,9 +4,13 @@ export default function ({ types: t }) {
     path.replaceWith(t.noop());
   }
 
-  function generateComment(path, parent) {
+  function escapeSource(comment) {
     // https://github.com/babel-plugins/babel-plugin-flow-comments/pull/6#issuecomment-122709012
-    let comment = path.getSource().replace(/\*-\//g, "*-ESCAPED/").replace(/\*\//g, "*-/");
+    return comment.replace(/\*-\//g, "*-ESCAPED/").replace(/\*\//g, "*-/");
+  }
+
+  function generateComment(path, parent) {
+    let comment = escapeSource(path.getSource());
     if (parent && parent.optional) comment = "?" + comment;
     if (comment[0] !== ":") comment = ":: " + comment;
     return comment;
@@ -43,7 +47,8 @@ export default function ({ types: t }) {
         path.get("body.body").forEach((child) => {
           if (child.isClassProperty() && child.node.typeAnnotation) {
             if (child.node.value) {
-              child.addComment("trailing", generateComment(child).split(/=[^>]/)[0]);
+              const comment = escapeSource(':: ' + child.get("key").getSource() + child.get("typeAnnotation").getSource());
+              child.addComment("trailing", comment);
             } else {
               wrapInFlowComment(child, child.parent);
             }
