@@ -4,9 +4,9 @@ class X {
   /*:: baz: ?string*/
 
   qux = { foo: 's' }; /*:: qux: { foo: string | bar | baz }*/
-  /*:: v: (a/* x = y *-/: string) => /* blah = blah *-/ void*/
+  /*:: v: (a/* x = y *-/: string) => void*/
 
-  w = (a /* blah = blah */ /* x = y */ /*: string*/) => 2; /*:: w: (a/* x = y *-/: string) => /* blah = blah *-/ number*/
+  w = (a /* x = y */ /*: string*/) => 2; /*:: w: (a/* x = y *-/: string) => number*/
   /*:: x: (a: string) => string*/
 
   y = (a /*: string*/) => '2'; /*:: y: (a: string) => string*/

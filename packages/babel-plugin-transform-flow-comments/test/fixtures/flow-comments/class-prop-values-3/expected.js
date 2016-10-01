@@ -3,7 +3,7 @@ class X {
     this.a = 2;
     this.b = '3';
 
-    this.w = (a /* blah = blah */ /* x = y */ /*: string*/) => 2;
+    this.w = (a /* x = y */ /*: string*/) => 2;
 
     this.y = (a /*: string*/) => '2';
 
@@ -12,6 +12,6 @@ class X {
 
   /*:: b: ?string*/ /*:: c: ?number*/
 
-  /*:: v: (a/* x = y *-/: string) => /* blah = blah *-/ void*/
-  /*:: w: (a/* x = y *-/: string) => /* blah = blah *-/ number*/ /*:: z: (a: string) => (b: number) => { x: string, y: number }*/ /*:: x: (a: string) => string*/ /*:: y: (a: string) => string*/
+  /*:: v: (a/* x = y *-/: string) => void*/
+  /*:: w: (a/* x = y *-/: string) => number*/ /*:: z: (a: string) => (b: number) => { x: string, y: number }*/ /*:: x: (a: string) => string*/ /*:: y: (a: string) => string*/
 }

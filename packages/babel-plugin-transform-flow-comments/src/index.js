@@ -53,11 +53,14 @@ export default function ({ types: t }) {
       // support for `class X { foo: string }` - #4622
       Class(path) {
         path.get("body.body").forEach((child) => {
-          if (child.isClassProperty() && !child.node.typeAnnotation && !child.node.value) {
+          if (!child.isClassProperty()) return;
+
+          if (!child.node.typeAnnotation && !child.node.value) {
             child.replaceWith(t.noop());
+            return;
           }
 
-          if (child.isClassProperty() && child.node.typeAnnotation) {
+          if (child.node.typeAnnotation) {
             if (child.node.value) {
               child.addComment("trailing", generateComment(child));
             } else {
