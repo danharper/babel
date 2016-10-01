@@ -4,8 +4,8 @@ export default function ({ types: t }) {
     path.replaceWith(t.noop());
   }
 
+  // https://github.com/babel-plugins/babel-plugin-flow-comments/pull/6#issuecomment-122709012
   function escapeSource(source) {
-    // https://github.com/babel-plugins/babel-plugin-flow-comments/pull/6#issuecomment-122709012
     return source.replace(/\*-\//g, "*-ESCAPED/").replace(/\*\//g, "*-/");
   }
 
