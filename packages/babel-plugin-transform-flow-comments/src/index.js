@@ -55,6 +55,7 @@ export default function ({ types: t }) {
         path.get("body.body").forEach((child) => {
           if (!child.isClassProperty()) return;
 
+          // class X { a }
           if (!child.node.typeAnnotation && !child.node.value) {
             child.replaceWith(t.noop());
             return;
@@ -62,9 +63,11 @@ export default function ({ types: t }) {
 
           if (child.node.typeAnnotation) {
             if (child.node.value) {
+              // class X { a: number = 2 }
               child.addComment("trailing", generateComment(child));
             } else {
-              wrapInFlowComment(child, child.parent);
+              // class X { a: number }
+              wrapInFlowComment(child);
             }
             child.node.typeAnnotation = null;
           }
